@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Inventory Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h2>Reagents Expiring in 30 Days</h2>
+  <table id="inventory-table"></table>
+
+  <h2>IgM Antibody Lot Box</h2>
+  <div id="lot-box-grid"></div>
+
+  <h2>Sample Management</h2>
+  <div class="toolbar">
+    <select id="sampleTypeFilter" onchange="filterSamples()">
+      <option value="all">All Types</option>
+      <option value="Plasma">Plasma</option>
+      <option value="Serum">Serum</option>
+    </select>
+    <button onclick="window.location.href='add_sample.html'">Add Sample</button>
+  </div>
+  <table id="sample-table">
+    <thead>
+      <tr>
+        <th>Sample ID</th><th>Status</th><th>Category</th><th>Parent ID</th><th>Barcode</th>
+        <th>Custodian</th><th>Subject ID</th><th>Storage</th><th>Qty</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
