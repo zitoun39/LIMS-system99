@@ -1,6 +1,6 @@
 services:
   # خدمة قاعدة البيانات
-  - type: psql
+  - type: postgres # <-- تم التصحيح هنا
     name: lims-db
     plan: free
 
@@ -9,11 +9,11 @@ services:
     name: lims-backend
     runtime: docker
     plan: free
-    repo: https://github.com/zitoun39/LIMS-system99 # تأكد من أنه رابط مستودعك الصحيح
+    repo: https://github.com/zitoun39/LIMS-system99
     envVars:
       - key: DATABASE_URL
         fromService:
-          type: psql
+          type: postgres # <-- تم التصحيح هنا أيضًا ليتطابق
           name: lims-db
           property: connectionString
       - key: SECRET_KEY
@@ -26,7 +26,7 @@ services:
     name: lims-frontend
     runtime: docker
     plan: free
-    repo: https://github.com/zitoun39/LIMS-system99 # تأكد من أنه رابط مستودعك الصحيح
+    repo: https://github.com/zitoun39/LIMS-system99
     dockerfilePath: ./frontend/Dockerfile
     dockerContext: ./frontend
     envVars:
