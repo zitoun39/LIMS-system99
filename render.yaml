@@ -1,24 +1,24 @@
-# ===============================================
-# |||  الهيكل الصحيح لملف render.yaml   |||
-# ===============================================
+# =======================================================
+# |||  הקוד הסופי והמתוקן לקובץ render.yaml   |||
+# =======================================================
 
 databases:
-  # تعريف قاعدة البيانات في قسمها الخاص
+  # تعريف قاعدة البيانات في القسم הנכון
   - name: lims-db
     databaseName: lims_db_production
     user: lims_user
     plan: free
 
 services:
-  # خدمة الواجهة الخلفية
+  # שירות הצד האחורי
   - type: web
     name: lims-backend
     runtime: docker
     plan: free
-    repo: https://github.com/zitoun39/LIMS-system99 # تأكد من رابط مستودعك
+    repo: https://github.com/zitoun39/LIMS-system99 # تأكد أن هذا هو رابط مستودعك
     envVars:
       - key: DATABASE_URL
-        fromDatabase: # <-- لاحظ: تم تغييرها إلى fromDatabase
+        fromDatabase:
           name: lims-db
           property: connectionString
       - key: SECRET_KEY
@@ -26,17 +26,14 @@ services:
       - key: PYTHONUNBUFFERED
         value: 1
 
-  # خدمة الواجهة الأمامية
+  # שירות הצד הקדמי
   - type: web
     name: lims-frontend
     runtime: docker
     plan: free
-    repo: https://github.com/zitoun39/LIMS-system99 # تأكد من رابط مستودعك
+    repo: https://github.com/zitoun39/LIMS-system99 # تأكد أن هذا הוא קישור המאגר שלך
     dockerfilePath: ./frontend/Dockerfile
     dockerContext: ./frontend
     envVars:
       - key: REACT_APP_API_URL
-        fromService:
-          type: web
-          name: lims-backend
-          property: url
+        value: "https://placeholder.com" # قيمة مؤقتة سنغيرها لاحقًا من لوحة التحكم
