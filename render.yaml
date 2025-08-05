@@ -1,0 +1,37 @@
+services:
+  # خدمة قاعدة البيانات
+  - type: psql
+    name: lims-db
+    plan: free
+
+  # خدمة الواجهة الخلفية
+  - type: web
+    name: lims-backend
+    runtime: docker
+    plan: free
+    repo: https://github.com/zitoun39/LIMS-system99 # تأكد من أنه رابط مستودعك الصحيح
+    envVars:
+      - key: DATABASE_URL
+        fromService:
+          type: psql
+          name: lims-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: PYTHONUNBUFFERED
+        value: 1
+
+  # خدمة الواجهة الأمامية
+  - type: web
+    name: lims-frontend
+    runtime: docker
+    plan: free
+    repo: https://github.com/zitoun39/LIMS-system99 # تأكد من أنه رابط مستودعك الصحيح
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
+    envVars:
+      - key: REACT_APP_API_URL
+        fromService:
+          type: web
+          name: lims-backend
+          property: url
