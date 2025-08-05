@@ -1,19 +1,24 @@
-services:
-  # خدمة قاعدة البيانات
-  - type: postgres # <-- تم التصحيح هنا
-    name: lims-db
+# ===============================================
+# |||  الهيكل الصحيح لملف render.yaml   |||
+# ===============================================
+
+databases:
+  # تعريف قاعدة البيانات في قسمها الخاص
+  - name: lims-db
+    databaseName: lims_db_production
+    user: lims_user
     plan: free
 
+services:
   # خدمة الواجهة الخلفية
   - type: web
     name: lims-backend
     runtime: docker
     plan: free
-    repo: https://github.com/zitoun39/LIMS-system99
+    repo: https://github.com/zitoun39/LIMS-system99 # تأكد من رابط مستودعك
     envVars:
       - key: DATABASE_URL
-        fromService:
-          type: postgres # <-- تم التصحيح هنا أيضًا ليتطابق
+        fromDatabase: # <-- لاحظ: تم تغييرها إلى fromDatabase
           name: lims-db
           property: connectionString
       - key: SECRET_KEY
@@ -26,7 +31,7 @@ services:
     name: lims-frontend
     runtime: docker
     plan: free
-    repo: https://github.com/zitoun39/LIMS-system99
+    repo: https://github.com/zitoun39/LIMS-system99 # تأكد من رابط مستودعك
     dockerfilePath: ./frontend/Dockerfile
     dockerContext: ./frontend
     envVars:
